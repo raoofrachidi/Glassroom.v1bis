@@ -1,0 +1,20 @@
+CREATE OR REPLACE TABLE `your_project_id.your_dataset.combined_table` AS
+SELECT
+    p.placement_id,
+    g.date as date_glassbook,
+    ga.ga_date as date_googleanalytics,
+    REGEXP_EXTRACT(p.placement_name, r'^(.*?)_') AS funnel,
+    REGEXP_EXTRACT(p.placement_name, r'^.*?_(.*?)_') AS format,
+    REGEXP_EXTRACT(p.placement_name, r'^.*?_.*?_(.*?)_') AS size,
+    REGEXP_EXTRACT(p.placement_name, r'^.*?_.*?_.*?_(.*)') AS campaign_name,
+    g.impressions,
+    g.clicks,
+    g.spend,
+    ga.sessions,
+    ga.bounces
+FROM
+    `your_project_id.your_dataset.placements` p
+JOIN
+    `your_project_id.your_dataset.raw_glassbook` g ON REGEXP_EXTRACT(g.web_tracking, r';(\d+);') = CAST(p.placement_id AS STRING)
+JOIN
+    `your_project_id.your_dataset.raw_googleanalytics` ga ON p.placement_id = ga.placement_id;
