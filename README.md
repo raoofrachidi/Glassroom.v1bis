@@ -14,7 +14,6 @@ Format of config.json file:
 {
     "project_id": "your_project_id",
     "dataset_id": "your_dataset_id",
-    "table_id": "your_table_id",
     "json_path": "path/to/your-key-file.json",
     "csv_paths": {
         "placements": "path/to/placements.csv",
